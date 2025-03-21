@@ -13,8 +13,8 @@ namespace CodeFirst
     {
         public BooksContext()
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
         public BooksContext(DbContextOptions<BooksContext> options)
@@ -23,6 +23,7 @@ namespace CodeFirst
         }
 
         public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Author> Authors { get; set; }
 
        
 
@@ -57,7 +58,6 @@ namespace CodeFirst
             modelBuilder.Entity<Book>().ToTable(b => b.HasCheckConstraint("ValidPublishing", "Publishing < GETDATE()"));
 
 
-
             //modelBuilder.Entity<Book>().Property(b => b.Publishing).HasColumnType("date");
 
             //modelBuilder.Entity<Book>().HasKey(b => b.Idixa);
@@ -68,13 +68,22 @@ namespace CodeFirst
 
             //modelBuilder.Entity<Book>().Property(b=>b.Id).ValueGeneratedNever();
 
-            modelBuilder.Entity<Book>().HasData(
-                new Book { Id = 1, Name = "C++", Publishing = new DateOnly(2000, 10, 10), Pages=100},
-                new Book { Id = 2, Name = "C#", Publishing = new DateOnly(2001, 10, 10), Pages=100},
-                new Book { Id = 3, Name = "SQL", Publishing = new DateOnly(2012, 10, 10), Pages=100},
-                new Book { Id = 4, Name = "EF Core", Publishing = new DateOnly(202, 10, 10), Pages=100}
-                );
-            
+
+            //modelBuilder.Entity<Book>()
+            //    .HasOne(b => b.Author)
+            //    .WithMany(a => a.Books)
+            //    .HasForeignKey(b => b.AuhtorId)
+            //    .HasConstraintName("FK_Books_Authors_999")
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+
+            //modelBuilder.Entity<Book>().HasData(
+            //    new Book { Id = 1, Name = "C++", Publishing = new DateOnly(2000, 10, 10), Pages=100},
+            //    new Book { Id = 2, Name = "C#", Publishing = new DateOnly(2001, 10, 10), Pages=100},
+            //    new Book { Id = 3, Name = "SQL", Publishing = new DateOnly(2012, 10, 10), Pages=100},
+            //    new Book { Id = 4, Name = "EF Core", Publishing = new DateOnly(202, 10, 10), Pages=100}
+            //    );
+
         }
 
       

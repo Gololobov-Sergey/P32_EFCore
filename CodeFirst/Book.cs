@@ -23,7 +23,9 @@ namespace CodeFirst
 
         public int Pages { get; set; }
 
-        
+
+        //public int AuhtorId { get; set; }
+        public Author Author { get; set; }
 
 
         public override string ToString()
