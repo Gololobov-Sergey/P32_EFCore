@@ -13,8 +13,8 @@ namespace CodeFirst
     {
         public BooksContext()
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+             Database.EnsureDeleted();
+             Database.EnsureCreated();
         }
 
         public BooksContext(DbContextOptions<BooksContext> options)
@@ -24,6 +24,12 @@ namespace CodeFirst
 
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<Author> Authors { get; set; }
+        public virtual DbSet<Profile> Profiles { get; set; }
+
+
+        public virtual DbSet<Student>  Students { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<Exam> Exams { get; set; }
 
        
 
@@ -76,6 +82,13 @@ namespace CodeFirst
             //    .HasConstraintName("FK_Books_Authors_999")
             //    .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Author>()
+               .HasOne(a => a.Profile)
+               .WithOne(p => p.Author)
+               .HasForeignKey<Profile>(p => p.Id);
+
+            modelBuilder.Entity<Profile>().ToTable("Authors");
+            modelBuilder.Entity<Author>().ToTable("Authors");
 
             //modelBuilder.Entity<Book>().HasData(
             //    new Book { Id = 1, Name = "C++", Publishing = new DateOnly(2000, 10, 10), Pages=100},
@@ -83,6 +96,23 @@ namespace CodeFirst
             //    new Book { Id = 3, Name = "SQL", Publishing = new DateOnly(2012, 10, 10), Pages=100},
             //    new Book { Id = 4, Name = "EF Core", Publishing = new DateOnly(202, 10, 10), Pages=100}
             //    );
+
+            modelBuilder.Entity<Subject>()
+                .HasMany(s=>s.Students)
+                .WithMany(s => s.Subjects)
+                .UsingEntity<Exam>(
+                    j => j.HasOne(e => e.Student)
+                        .WithMany(s => s.Exams)
+                        .HasForeignKey(e => e.StudentId),
+                    j => j.HasOne(e => e.Subject)
+                        .WithMany(s => s.Exams)
+                        .HasForeignKey(e => e.SubjectId),
+                    j =>
+                    {
+                        j.HasKey(e => e.Id);
+                        j.ToTable("Exams");
+                    }
+                    );
 
         }
 

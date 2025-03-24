@@ -23,6 +23,9 @@ namespace CodeFirst
 
         public List<Book> Books { get; set; }
 
+      
+        public Profile Profile { get; set; }
+
         //public Author(int id, string name)
         //{
         //    this.id = id;

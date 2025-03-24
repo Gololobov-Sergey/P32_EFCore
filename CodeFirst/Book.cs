@@ -27,6 +27,8 @@ namespace CodeFirst
         //public int AuhtorId { get; set; }
         public Author Author { get; set; }
 
+        public List<Genre> Genres { get; set; }
+
 
         public override string ToString()
         {
