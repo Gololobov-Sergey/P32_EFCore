@@ -76,28 +76,28 @@ namespace CodeFirst
                 //}
 
 
-                Student s1 = new Student { Name = "Alex" };
-                Student s2 = new Student { Name = "Bob" };
+                //Student s1 = new Student { Name = "Alex" };
+                //Student s2 = new Student { Name = "Bob" };
 
-                db.Students.AddRange(s1, s2);
+                //db.Students.AddRange(s1, s2);
 
-                Subject sub1 = new Subject { Name = "Math" };
-                Subject sub2 = new Subject { Name = "History" };
-                Subject sub3 = new Subject { Name = "Biology" };
-                Subject sub4 = new Subject { Name = "C++" };
+                //Subject sub1 = new Subject { Name = "Math" };
+                //Subject sub2 = new Subject { Name = "History" };
+                //Subject sub3 = new Subject { Name = "Biology" };
+                //Subject sub4 = new Subject { Name = "C++" };
 
 
-                db.Subjects.AddRange(sub1, sub2, sub3, sub4);
+                //db.Subjects.AddRange(sub1, sub2, sub3, sub4);
 
-                Exam e1 = new Exam { Student = s1, Subject = sub1, Mark = 5 };
-                Exam e2 = new Exam { Student = s1, Subject = sub2, Mark = 4 };
-                Exam e3 = new Exam { Student = s2, Subject = sub1, Mark = 3 };
-                Exam e4 = new Exam { Student = s2, Subject = sub2, Mark = 2 };
-                Exam e5 = new Exam { Student = s2, Subject = sub3, Mark = 1 };
+                //Exam e1 = new Exam { Student = s1, Subject = sub1, Mark = 5 };
+                //Exam e2 = new Exam { Student = s1, Subject = sub2, Mark = 4 };
+                //Exam e3 = new Exam { Student = s2, Subject = sub1, Mark = 3 };
+                //Exam e4 = new Exam { Student = s2, Subject = sub2, Mark = 2 };
+                //Exam e5 = new Exam { Student = s2, Subject = sub3, Mark = 1 };
 
-                db.Exams.AddRange(e1, e2, e3, e4, e5);
+                //db.Exams.AddRange(e1, e2, e3, e4, e5);
 
-                db.SaveChanges();
+                //db.SaveChanges();
 
                 //var st = db.Students
                 //          .Include(s => s.Exams)
@@ -114,19 +114,51 @@ namespace CodeFirst
                 //}
 
 
-                var sub = db.Subjects
-                          .Include(s => s.Students)
-                            .ThenInclude(e => e.Exams)
-                          .ToList();
+                //var sub = db.Subjects
+                //          .Include(s => s.Students)
+                //            .ThenInclude(e => e.Exams)
+                //          .ToList();
 
-                foreach (var subject in sub)
+                //foreach (var subject in sub)
+                //{
+                //    Console.WriteLine(subject.Name);
+                //    if (subject.Exams != null)
+                //        foreach (var exam in subject.Exams)
+                //        {
+                //            Console.WriteLine(exam.Student.Name + " " + exam.Mark);
+                //        }
+                //}
+
+
+
+                User user1 = new User { Name = "Alex" };
+                User user2 = new User { Name = "Bob" };
+                db.Users.AddRange(user1, user2);
+
+                Employee emp1 = new Employee { Name = "Oleg", Company = "Microsoft" };
+                db.Employees.Add(emp1);
+
+                Manager manager1 = new Manager { Name = "Anna", Company = "Google", Department = "IT" };
+                db.Managers.Add(manager1);
+
+                db.SaveChanges();
+
+                var users = db.Users.FromSqlRaw("SELECT * FROM Users").ToList();
+                foreach (var user in users)
                 {
-                    Console.WriteLine(subject.Name);
-                    if (subject.Exams != null)
-                        foreach (var exam in subject.Exams)
-                        {
-                            Console.WriteLine(exam.Student.Name + " " + exam.Mark);
-                        }
+                    Console.WriteLine(user.Name);
+                }
+
+                var employees = db.Employees.ToList();
+                foreach (var employee in employees)
+                {
+                    Console.WriteLine(employee.Name + " " + employee.Company);
+                }
+
+                var managers = db.Managers.ToList();
+                foreach (var manager in managers)
+                {
+                    Console.WriteLine(manager.Name + " " + manager.Company + " " + manager.Department);
                 }
             }
         }

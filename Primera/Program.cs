@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Primera.Models;
 
 namespace Primera
@@ -37,20 +38,45 @@ namespace Primera
             //    }
             //}
 
-            List<Team> teams = new();
+            //List<Team> teams = new();
+
+            //using (PrimeraContext db = new())
+            //{
+            //    teams = db.Teams.ToList();
+            //}
+
+            //List<string?> menuItems = teams.Select(t => t.Name).ToList();
+            //int c = ConsoleMenu.SelectVertical(HPosition.Left, VPosition.Top, HorizontalAlignment.Right, menuItems!);
+            //Team team1 = teams[c];
+            ////menuItems.RemoveAt(c);
+            //c = ConsoleMenu.SelectVertical(HPosition.Left, VPosition.Top, HorizontalAlignment.Right, menuItems!);
+            //Team team2 = teams[c];
+            //int f = 0;
+
 
             using (PrimeraContext db = new())
             {
-                teams = db.Teams.ToList();
-            }
+                string name = "Sergio Ramos";
+                //SqlParameter p = new SqlParameter("name", name);
+                //var t = db.Teams.FromSqlRaw($"SELECT * FROM GetTeamsFromCity('{name}')").ToList();
+                
+                //var t = db.GetTeamsFromCity(name).ToList();
 
-            List<string?> menuItems = teams.Select(t => t.Name).ToList();
-            int c = ConsoleMenu.SelectVertical(HPosition.Left, VPosition.Top, HorizontalAlignment.Right, menuItems!);
-            Team team1 = teams[c];
-            //menuItems.RemoveAt(c);
-            c = ConsoleMenu.SelectVertical(HPosition.Left, VPosition.Top, HorizontalAlignment.Right, menuItems!);
-            Team team2 = teams[c];
-            int f = 0;
+                var t = db.Teams.FromSqlRaw($"GetTeamFromPlayer '{name}'").ToList();
+
+                //SqlParameter p = new SqlParameter()
+                //{
+                //    ParameterName = "name",
+                //    Value = name,
+                //    SqlDbType = System.Data.SqlDbType.NVarChar,
+                //    Direction = System.Data.ParameterDirection.Input
+                //};
+
+                foreach (var team in t)
+                {
+                    System.Console.WriteLine(team.Name + " " + team.City);
+                }
+            }
         }
 
 

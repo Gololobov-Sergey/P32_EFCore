@@ -24,12 +24,22 @@ namespace Primera
         public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
+
+
+        public IQueryable<Team> GetTeamsFromCity(string city)
+        {
+            return FromExpression(() => GetTeamsFromCity(city));
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=TAURUS\\SQLEXPRESS;Initial Catalog=PrimeraP32;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDbFunction(() => GetTeamsFromCity(default!));
+
+
             modelBuilder.Entity<Goal>()
                 .HasOne(g => g.Match)
                 .WithMany(m => m.Goals)
