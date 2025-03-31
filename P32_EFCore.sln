@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital_Models", "Hospital
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primera", "Primera\Primera.csproj", "{98E20827-A2C7-4AE9-B5C4-3C25AE21B234}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy_Dapper", "Academy_Dapper\Academy_Dapper.csproj", "{91FE0932-2DBD-496F-ADE4-BE0B65D4C3CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{98E20827-A2C7-4AE9-B5C4-3C25AE21B234}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98E20827-A2C7-4AE9-B5C4-3C25AE21B234}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98E20827-A2C7-4AE9-B5C4-3C25AE21B234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91FE0932-2DBD-496F-ADE4-BE0B65D4C3CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91FE0932-2DBD-496F-ADE4-BE0B65D4C3CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91FE0932-2DBD-496F-ADE4-BE0B65D4C3CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91FE0932-2DBD-496F-ADE4-BE0B65D4C3CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
