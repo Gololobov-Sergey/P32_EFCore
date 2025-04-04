@@ -5,6 +5,8 @@ using Z.Dapper.Plus;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.ComponentModel;
 
 
 namespace Academy_Dapper
@@ -21,6 +23,9 @@ namespace Academy_Dapper
             "Trust Server Certificate=True;" +
             "Application Intent=ReadWrite;" +
             "Multi Subnet Failover=False";
+
+
+        
 
         static void Main(string[] args)
         {
@@ -95,25 +100,61 @@ namespace Academy_Dapper
             //}
 
 
-            string sql = "SELECT * FROM [Students] as s join [Groups] as g on s.GroupId = g.Id";
-            var stud = connection.Query<Student, Academy_Dapper.Models.Group, Student>(sql, (student, group) =>
+            //string sql = "SELECT * FROM [Students] as s join [Groups] as g on s.GroupId = g.Id";
+            //var stud = connection.Query<Student, Academy_Dapper.Models.Group, Student>(sql, (student, group) =>
+            //{
+            //    student.Group = group;
+            //    return student;
+            //}, 
+            //splitOn: "Id");
+
+            //foreach (var student in stud)
+            //{
+            //    Console.WriteLine($"{student.Id} {student.Name} {student.BirthDay} {student.Group.Name}");
+            //}
+
+
+
+            string sql = "SELECT * " +
+                         "FROM [Students] as s " +
+                         "join [Groups] as g on s.GroupId = g.Id " +
+                         "join [Curators] as c on c.Id = g.CuratorId";
+            var stud = connection.Query<Student, Academy_Dapper.Models.Group, Curator, Student>(sql, (student, group, curator) =>
             {
                 student.Group = group;
+                group.Curator = curator;
                 return student;
-            }, 
-            splitOn: "Id");
+            },
+            splitOn: "Id").ToList();
 
-            foreach (var student in stud)
+            //foreach (var student in stud)
+            //{
+            //    Console.WriteLine($"{student.Id} {student.Name} {student.BirthDay.ToShortDateString()} {student.Group.Name} {student.Group.Curator!.Name}");
+            //}
+
+            var stud1 = stud.Select(s => new
             {
-                Console.WriteLine($"{student.Id} {student.Name} {student.BirthDay} {student.Group.Name}");
-            }
+                s.Id,
+                s.Name,
+                s.BirthDay,
+                Group = s.Group.Name,
+                Curator = s.Group.Curator.Name
+            }).ToList();
 
+            DataTable dt = stud1.ToDataTable();
 
-            //var st = connection.ExecuteReader(sql, new { groupId = 1 });
-            //DataTable dt = new DataTable();
-            //dt.Load(st);
-            //dt.Print();
+            dt.Print((obj, row, column) =>
+            {
+                if (obj == DBNull.Value)
+                    return null;
 
+                if (column.ColumnName == "BirthDay")
+                    return ((DateTime)obj).ToShortDateString();
+
+                return obj.ToString();
+            });
+
+            //dt.PrintList();
         }
     }
 }

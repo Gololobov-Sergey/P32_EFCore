@@ -17,5 +17,9 @@ namespace Academy_Dapper.Models
         [MaxLength(20)]
         public string Name { get; set; }
         public ICollection<Student> Students { get; set; }
+
+        public int CuratorId { get; set; }
+
+        public Curator? Curator { get; set; }
     }
 }
